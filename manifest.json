@@ -3,20 +3,20 @@
 	"version": "0.0.1",
 	"manifest_version": 2,
 	"icons": {
-		"16": "icon16.png",
-		"48": "icon48.png"
+		"16": "img/icon16.png",
+		"48": "img/icon48.png"
 	},
 	"browser_action": {
-		"default_icon": "icon48.png",
+		"default_icon": "img/icon48.png",
 		"default_popup": "popup.html",
 		"default_title": "ShitBlock"
 	},
 	"background": {
-		"scripts": ["background.js"],
+		"scripts": ["js/background.js"],
 		"persistent": true
 	},
 	"content_scripts": [{
         "matches": ["http://*/*", "https://*/*"],
-        "js": ["jquery.min.js", "content.js"]
+        "js": ["js/jquery.min.js", "js/content.js"]
     }]
 }
