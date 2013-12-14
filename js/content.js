@@ -3,8 +3,6 @@ chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
 	if (message.type == "toggle_shit")
 	{
 		var shitUsers = [
-			"qperez",
-			"tlopes-g"
 		];
 
 		$('li.item').each(function () {
