@@ -1,10 +1,12 @@
 chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
 
+	console.log("PUTE");
+	var config = chrome.storage.sync.get("ShitBlockConfig");
+	console.log(config);
+
+
 	if (message.type == "toggle_shit")
 	{
-		var shitUsers = [
-		];
-
 		$('li.item').each(function () {
 			var href = $(this).find('a').attr('href');
 			if (href) {
