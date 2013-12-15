@@ -14,7 +14,7 @@ angular.module("ShitBlock").controller("OptionsCtrl", function ($scope, localSto
 	console.log(result);
 		if (!isEmpty(result)) {
 			console.log("ok");
-			config = result;
+			config = result.ShitBlockConfig;
 		}
 		else
 			config = { blocked : {}, enabled : true };
