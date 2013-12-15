@@ -1,6 +1,8 @@
 angular.module("ShitBlock", ['LocalStorageModule']);
-angular.module("ShitBlock").controller("OptionsCtrl", function ($scope, localStorageService) {
+angular.module("ShitBlock").controller("OptionsCtrl", function ($scope, localStorageService, $timeout) {
 
+	$scope.shitUsers = {};
+	
 	function isEmpty(obj) {
 		for(var prop in obj) {
 			if(obj.hasOwnProperty(prop))
@@ -10,8 +12,8 @@ angular.module("ShitBlock").controller("OptionsCtrl", function ($scope, localSto
 	}
 
 	var config;
+	
 	chrome.storage.sync.get('ShitBlockConfig', function(result){
-	console.log(result);
 		if (!isEmpty(result)) {
 			console.log("ok");
 			config = result.ShitBlockConfig;
@@ -20,8 +22,9 @@ angular.module("ShitBlock").controller("OptionsCtrl", function ($scope, localSto
 			config = { blocked : {}, enabled : true };
 		$scope.shitUsers = config.blocked;
 		console.log($scope.shitUsers);
+		$scope.$digest();
 	});
-
+	
 	$scope.editing = {};
 
 	function save() {
