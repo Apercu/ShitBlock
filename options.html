@@ -39,7 +39,7 @@
 				</form>
 				<table class="table-bordered table">
 					<tbody>
-						<tr ng-repeat="shit in shitUsers">
+						<tr ng-repeat="shit in shitUsers | orderBy:login">
 							<td class="col-md-1">{{shit.login}}</td>
 							<td ng-if="editing[shit.login]" ng-click="editDescription(shit)">
 								<form class="form-inline nomargin" ng-submit="saveDescription(shit)">
