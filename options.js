@@ -1,5 +1,5 @@
-angular.module("ShitBlock", ['LocalStorageModule']);
-angular.module("ShitBlock").controller("OptionsCtrl", function ($scope, localStorageService, $timeout) {
+angular.module("ShitBlock", []);
+angular.module("ShitBlock").controller("OptionsCtrl", function ($scope) {
 
 	$scope.shitUsers = {};
 	
