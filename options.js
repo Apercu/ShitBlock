@@ -33,7 +33,7 @@ angular.module("ShitBlock").controller("OptionsCtrl", function ($scope, localSto
  	}
 
  	$scope.add = function (newUser) {
- 		if (!$scope.shitUsers[newUser.login]) {
+ 		if (newUser && !$scope.shitUsers[newUser.login]) {
  			$scope.shitUsers[newUser.login] = newUser;
  			$scope.newUser = {};
  			save();

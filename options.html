@@ -30,7 +30,7 @@
 
 				<hr>
 				<h3>Shit users</h3>
-				<form class="form-inline" role="form" ng-submit="add(newUser)">
+				<form class="form-inline" role="form" ng-submit="add(newUser)" ng-validate="formValid">
 					<div class="form-group">
 						<label class="sr-only" for="exampleInputEmail2">Login :</label>
 						<input type="text" class="form-control" placeholder="Login" ng-model="newUser.login">
