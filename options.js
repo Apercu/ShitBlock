@@ -15,24 +15,19 @@ angular.module("ShitBlock").controller("OptionsCtrl", function ($scope) {
 	
 	chrome.storage.sync.get('ShitBlockConfig', function(result){
 		if (!isEmpty(result)) {
-			console.log("ok");
 			config = result.ShitBlockConfig;
 		}
 		else
 			config = { blocked : {}, enabled : true };
 		$scope.shitUsers = config.blocked;
-		console.log($scope.shitUsers);
 		$scope.$digest();
 	});
 	
 	$scope.editing = {};
 
 	function save() {
-		console.log(config);
 		config.blocked = $scope.shitUsers;
-		console.log(config);
 		chrome.storage.sync.set({'ShitBlockConfig': config });
- 		//localStorageService.set("ShitBlockConfig", config);	
  	}
 
  	$scope.add = function (newUser) {
