@@ -9,7 +9,6 @@ chrome.storage.sync.get('ShitBlockConfig', function(result){
 
 chrome.storage.onChanged.addListener(function(changes, namespace) {
 	config = changes["ShitBlockConfig"].newValue;
-	console.log(config);
 	updateBlock();
 });
 
