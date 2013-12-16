@@ -25,6 +25,11 @@ angular.module("ShitBlock").controller("OptionsCtrl", function ($scope) {
 			save();
 		});
 	});
+
+	chrome.storage.onChanged.addListener(function(changes, namespace) {
+		if (changes["ShitBlockConfig"].newValue.enabled != config.enabled)
+			$('#enableShitBlock').bootstrapSwitch('toggleState');
+	});
 	
 	function save() {
 		config.blocked = $scope.shitUsers;
