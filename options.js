@@ -2,6 +2,7 @@ angular.module("ShitBlock", []);
 angular.module("ShitBlock").controller("OptionsCtrl", function ($scope) {
 
 	$scope.shitUsers = {};
+	$scope.newUser = {};
 	
 	function isEmpty(obj) {
 		for(var prop in obj) {
@@ -31,7 +32,7 @@ angular.module("ShitBlock").controller("OptionsCtrl", function ($scope) {
  	}
 
  	$scope.add = function (newUser) {
- 		if (newUser && !$scope.shitUsers[newUser.login]) {
+ 		if (newUser && newUser.login && !$scope.shitUsers[newUser.login]) {
  			$scope.shitUsers[newUser.login] = newUser;
  			$scope.newUser = {};
  			save();
@@ -44,7 +45,7 @@ angular.module("ShitBlock").controller("OptionsCtrl", function ($scope) {
  	};
 
  	$scope.formValid = function (newUser) {
- 		return (newUser && newUser.login && !($scope.shitUsers[newUser.login]));
+		return (newUser && newUser.login && !($scope.shitUsers[newUser.login]));
  	};
 
  	$scope.editDescription = function (user) {
