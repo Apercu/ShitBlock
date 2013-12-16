@@ -9,6 +9,7 @@
 	<script type="text/javascript" src="js/lib/jquery-2.0.3.min.js"></script>
 	<script type="text/javascript" src="js/lib/angular.js"></script>
 	<script type="text/javascript" src="js/lib/bootstrap-switch.js"></script>
+	<script type="text/javascript" src="js/lib/ui-bootstrap-custom-tpls-0.7.0.js"></script>
 	<script type="text/javascript" src="js/options.js"></script>
 </head>
 <body ng-app="ShitBlock">
@@ -39,7 +40,7 @@
 			<div class="span6">
 				<form class="form-inline" role="form" ng-submit="add(newUser)" ng-validate="formValid">
 					<div class="input-append">
-						<input class="span3" id="appendedInputButton" type="text" ng-model="newUser.login" placeholder="Add shitter login">
+						<input class="span3" id="appendedInputButton" type="text" ng-model="newUser.login" placeholder="Add shitter login" typeahead="shitter for shitter in shitters | filter:$viewValue | limitTo:10"" autocomplete="off">
 						<button class="btn btn-info" type="submit" ng-disabled="!formValid(newUser)">
 							<i class="icon icon-white icon-plus"></i>
 							Ignore that shitter !
