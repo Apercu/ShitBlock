@@ -1,6 +1,6 @@
 {
 	"name": "ShitBlock",
-	"version": "0.0.3",
+	"version": "0.0.5",
 	"manifest_version": 2,
 	"icons": {
 		"16": "img/icon16.png",
@@ -14,13 +14,9 @@
 		"default_title": "ShitBlock"
 	},
 	"background" :{
-		"scripts": ["js/angular.js"]
+		"scripts": ["js/background.js"]
 	},
-	"content_scripts": [{
-        "matches": ["http://*/*", "https://*/*"],
-        "js": ["js/background.js"]
-    }],
-    "options_page": "options.html",
-    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
-    "permissions": ["storage"]
+	"options_page": "options.html",
+	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+	"permissions": ["storage"]
 }
