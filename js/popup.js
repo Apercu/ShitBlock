@@ -37,6 +37,6 @@ window.onload = function () {
 	}
 
 	 document.getElementById("popup_options").onclick = function() {
-		chrome.extension.getBackgroundPage().openTab("../options.html");
+	 	chrome.tabs.create({ url: "../options.html" });
 	}
 }
