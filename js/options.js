@@ -13,6 +13,7 @@ angular.module("ShitBlock").controller("OptionsCtrl", function ($scope) {
 	}
 
 	var config;
+	$scope.shitUsers = {};
 	
 	chrome.storage.sync.get('ShitBlockConfig', function(result){
 		if (!isEmpty(result))
