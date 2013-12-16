@@ -35,4 +35,8 @@ window.onload = function () {
 		}
 		return true;
 	}
+
+	 document.getElementById("popup_options").onclick = function() {
+		chrome.extension.getBackgroundPage().openTab("../options.html");
+	}
 }
