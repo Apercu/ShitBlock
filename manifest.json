@@ -19,7 +19,7 @@
 	},
 	"content_scripts": [{
 		"matches": ["http://*/*", "https://*/*"],
-		"js": ["js/jquery-2.0.3.min.js", "js/content.js"]
+		"js": ["js/lib/jquery-2.0.3.min.js", "js/content.js"]
 	}],
 	"options_page": "options.html",
 	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
