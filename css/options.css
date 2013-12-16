@@ -1,0 +1,11 @@
+body {
+	padding: 1em 0;
+}
+
+form.nomargin {
+	margin: 0px !important;
+}
+
+.heading-title{
+	padding: 50px;
+}
