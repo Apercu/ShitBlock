@@ -5,8 +5,11 @@
 	<title>ShitBlock Options</title>
 	<link href="css/bootstrap.css" rel="stylesheet">
 	<link href="css/options.css" rel="stylesheet">
+	<link href="css/bootstrap-switch.css" rel="stylesheet">
 	<script type="text/javascript" src="js/angular.js"></script>
-	<script src="js/options.js"></script>
+	<script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap-switch.js"></script>
+	<script type="text/javascript" src="js/options.js"></script>
 </head>
 <body ng-app="ShitBlock">
 	<div class="container">
@@ -23,7 +26,9 @@
 		<div class="row">
 			<div class="span12">
 				<h3>General</h3>
-				Active <input type="radio">
+				<div id="enableShitBlock" class="make-switch" data-on="success" data-off="danger">
+					<input type="checkbox">
+				</div>
 			</div>
 		</div>
 		<hr>
