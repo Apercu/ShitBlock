@@ -1,16 +1,31 @@
 angular.module("ShitBlock", ['ui.bootstrap']);
+
+angular.module("ShitBlock").filter('array', function() {
+	return function(items) {
+	console.log(items);
+		var filtered = [];
+		angular.forEach(items, function(item) {
+			filtered.push(item);
+		});
+		return filtered;
+	};
+});
+
 angular.module("ShitBlock").controller("OptionsCtrl", function ($scope, $http) {
 
 	$scope.shitUsers = {};
 	$scope.newUser = {};
 	$scope.editing = {};
 	$scope.shitters = {};
+	$scope.searchText = "";
 
 	var config;
 
 	chrome.storage.sync.get('ShitBlockConfig', function(result){
 		config = (!isEmpty(result)) ? result.ShitBlockConfig : { blocked : {}, enabled : true };
 		$scope.shitUsers = config.blocked;
+		console.log("coucou");
+		console.log($scope.shitUsers);
 		$scope.$digest();
 		if (config.enabled == true)
 		{
@@ -36,8 +51,6 @@ angular.module("ShitBlock").controller("OptionsCtrl", function ($scope, $http) {
 		if (changes["ShitBlockConfig"].newValue.enabled != config.enabled)
 			$('#enableShitBlock').bootstrapSwitch('toggleState');
 	});
-
-	
 
 	function save() {
 		config.blocked = $scope.shitUsers;
