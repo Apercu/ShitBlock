@@ -43,15 +43,18 @@
 						<span class="add-on">
 							<i class="icon icon-plus"></i>
 						</span>
-						<input class="span3" id="appendedInputButton" type="text" ng-model="newUser.login" placeholder="Add shitter login" typeahead="shitter for shitter in shitters | filter:$viewValue | limitTo:10"" autocomplete="off" typeahead-on-select="add(newUser)">
+						<input class="span5" id="appendedInputButton" type="text" ng-model="newUser.login" placeholder="Add shitter login" typeahead="shitter for shitter in shitters | filter:$viewValue | limitTo:10"" autocomplete="off" typeahead-on-select="add(newUser)">
 					</div>
 				</form>
 			</div>
 			<div class="span6">
 				<div class="pull-right">
-					<form class="form-search">
-						<input type="text" class="span4 input-medium" placeholder="Rechercher..." ng-model="searchText">
-					</form>
+					<div class="input-append">
+						<input type="text" class="span5 input-medium" placeholder="Rechercher..." ng-model="searchText">
+						<span class="add-on">
+							<i class="icon icon-search"></i>
+						</span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -60,10 +63,10 @@
 				<table class="table-bordered table">
 					<tbody>
 						<tr ng-repeat="shit in shitUsers | orderBy:login | filter:searchText">
-							<td class="span1">{{shit.login}}</td>
+							<td class="span2">{{shit.login}}</td>
 							<td ng-if="editing[shit.login]" ng-click="editDescription(shit)">
 								<form class="form-inline nomargin" ng-submit="saveDescription(shit)">
-									<input type="text" class="span10 form-control" placeholder="Enter description" ng-model="shit.description" autofocus="autofocus">
+									<input type="text" class="span9 form-control" placeholder="Enter description" ng-model="shit.description" autofocus="autofocus">
 								</form>
 							</td>
 							<td ng-if="!editing[shit.login]" ng-click="editDescription(shit)">
