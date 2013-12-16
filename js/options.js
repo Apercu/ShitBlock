@@ -15,9 +15,8 @@ angular.module("ShitBlock").controller("OptionsCtrl", function ($scope) {
 	var config;
 	
 	chrome.storage.sync.get('ShitBlockConfig', function(result){
-		if (!isEmpty(result)) {
+		if (!isEmpty(result))
 			config = result.ShitBlockConfig;
-		}
 		else
 			config = { blocked : {}, enabled : true };
 		$scope.shitUsers = config.blocked;
@@ -56,4 +55,12 @@ angular.module("ShitBlock").controller("OptionsCtrl", function ($scope) {
  		$scope.editing[user.login] = false;
  		save();
  	};
+
+ 	function isEmpty(obj) {
+		for(var prop in obj) {
+			if(obj.hasOwnProperty(prop))
+				return false;
+		}
+		return true;
+	}
  });
