@@ -39,10 +39,12 @@
 			</div>
 			<div class="span6">
 				<form class="form-inline" role="form" ng-submit="add(newUser)" ng-validate="formValid">
-					<div class="input-append">
+					<div class="input-prepend">
+						<span class="add-on">
+							<i class="icon icon-plus"></i>
+						</span>
 						<input class="span3" id="appendedInputButton" type="text" ng-model="newUser.login" placeholder="Add shitter login" typeahead="shitter for shitter in shitters | filter:$viewValue | limitTo:10"" autocomplete="off" typeahead-on-select="add(newUser)">
 					</div>
-					<i class="icon icon-plus"></i>
 				</form>
 			</div>
 			<div class="span6">
