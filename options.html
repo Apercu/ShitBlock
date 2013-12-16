@@ -34,7 +34,7 @@
 			<div class="span6">
 				<form class="form-inline" role="form" ng-submit="add(newUser)" ng-validate="formValid">
 					<div class="input-append">
-						<input class="span3" id="appendedInputButton" type="text" ng-model="newUser.login" placeholder="Add shitter...">
+						<input class="span3" id="appendedInputButton" type="text" ng-model="newUser.login" placeholder="Add shitter login">
 						<button class="btn btn-info" type="submit" ng-disabled="!formValid(newUser)">
 							<i class="icon icon-white icon-plus"></i>
 							Ignore that shitter !
@@ -45,7 +45,7 @@
 			<div class="span6">
 				<div class="pull-right">
 					<form class="form-search">
-						<input type="text" class="span4 input-medium search-query" placeholder="Rechercher..." ng-model="searchText">
+						<input type="text" class="span4 input-medium" placeholder="Rechercher..." ng-model="searchText">
 					</form>
 				</div>
 			</div>
