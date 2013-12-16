@@ -46,6 +46,10 @@ angular.module("ShitBlock").controller("OptionsCtrl", function ($scope, $http) {
 		});
 	});
 
+	chrome.storage.sync.get('ShitBlockCount', function(result){
+		$scope.total = (!isEmpty(result)) ? result.ShitBlockCount.total : 0;
+	});
+
 	chrome.storage.onChanged.addListener(function(changes, namespace) {
 		if (changes["ShitBlockConfig"])
 		{
