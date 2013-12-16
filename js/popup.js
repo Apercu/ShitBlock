@@ -12,7 +12,7 @@ window.onload = function () {
 		{
 			$('#enableShitBlock').bootstrapSwitch('setAnimated', false);
 			$('#enableShitBlock').bootstrapSwitch('setState', true);
-			setTimeout("$('#enableShitBlock').bootstrapSwitch('setAnimated', true)", 500);
+			setTimeout("$('#enableShitBlock').bootstrapSwitch('setAnimated', true)", 100);
 		}
 		$('#enableShitBlock').on('switch-change', function (e, data) {
 			config.enabled = data.value;
