@@ -41,11 +41,8 @@
 				<form class="form-inline" role="form" ng-submit="add(newUser)" ng-validate="formValid">
 					<div class="input-append">
 						<input class="span3" id="appendedInputButton" type="text" ng-model="newUser.login" placeholder="Add shitter login" typeahead="shitter for shitter in shitters | filter:$viewValue | limitTo:10"" autocomplete="off" typeahead-on-select="add(newUser)">
-						<button class="btn btn-info" type="submit" ng-disabled="!formValid(newUser)">
-							<i class="icon icon-white icon-plus"></i>
-							Ignore that shitter !
-						</button>
 					</div>
+					<i class="icon icon-plus"></i>
 				</form>
 			</div>
 			<div class="span6">
