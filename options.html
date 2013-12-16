@@ -58,7 +58,7 @@
 							<td class="span1">{{shit.login}}</td>
 							<td ng-if="editing[shit.login]" ng-click="editDescription(shit)">
 								<form class="form-inline nomargin" ng-submit="saveDescription(shit)">
-									<input type="text" class="span6 form-control" placeholder="Enter description" ng-model="shit.description" autofocus="autofocus">
+									<input type="text" class="span10 form-control" placeholder="Enter description" ng-model="shit.description" autofocus="autofocus">
 								</form>
 							</td>
 							<td ng-if="!editing[shit.login]" ng-click="editDescription(shit)">

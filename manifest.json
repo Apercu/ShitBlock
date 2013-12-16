@@ -1,6 +1,6 @@
 {
 	"name": "ShitBlock",
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"manifest_version": 2,
 	"icons": {
 		"16": "img/icon16.png",
