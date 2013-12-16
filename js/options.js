@@ -18,6 +18,7 @@ angular.module("ShitBlock").controller("OptionsCtrl", function ($scope, $http) {
 	$scope.editing = {};
 	$scope.shitters = {};
 	$scope.searchText = "";
+	$scope.currentlyBlocked = 0;
 
 	var config;
 
