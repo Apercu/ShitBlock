@@ -42,12 +42,14 @@ angular.module("ShitBlock").controller("OptionsCtrl", function ($scope, $http) {
 	$scope.add = function (newUser) {
 		if (newUser && newUser.login && !$scope.shitUsers[newUser.login] && $scope.shitters.indexOf(newUser.login) != -1) {
 			$scope.shitUsers[newUser.login] = newUser;
+			$scope.shitters.splice($scope.shitters.indexOf(newUser.login), 1);
 			$scope.newUser = {};
 			save();
 		}
 	};
 
 	$scope.delete = function (index) {
+		$scope.shitters.push($scope.shitUsers[index].login);
 		delete $scope.shitUsers[index];
 		save();
 	};
