@@ -4,14 +4,9 @@ angular.module("ShitBlock").controller("OptionsCtrl", function ($scope, $http) {
 	$scope.shitUsers = {};
 	$scope.newUser = {};
 	$scope.editing = {};
+	$scope.shitters = {};
 
 	var config;
-
-	$http.get("logins.json").then(function (res) {
-		$scope.shitters = res.data;
-	}, function (err) {
-		console.log(err);
-	});
 
 	chrome.storage.sync.get('ShitBlockConfig', function(result){
 		config = (!isEmpty(result)) ? result.ShitBlockConfig : { blocked : {}, enabled : true };
@@ -27,12 +22,22 @@ angular.module("ShitBlock").controller("OptionsCtrl", function ($scope, $http) {
 			config.enabled = data.value;
 			save();
 		});
+		$http.get("logins.json").then(function (res) {
+			$scope.shitters = res.data;
+			for (var key in config.blocked) {
+				$scope.shitters.splice($scope.shitters.indexOf(config.blocked[key].login), 1);
+			}
+		}, function (err) {
+			console.log(err);
+		});
 	});
 
 	chrome.storage.onChanged.addListener(function(changes, namespace) {
 		if (changes["ShitBlockConfig"].newValue.enabled != config.enabled)
 			$('#enableShitBlock').bootstrapSwitch('toggleState');
 	});
+
+	
 
 	function save() {
 		config.blocked = $scope.shitUsers;
