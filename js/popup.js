@@ -1,7 +1,6 @@
 window.onload = function () {
 
 	var config;
-	var checkbox = document.getElementById("switch");
 
 	chrome.storage.sync.get('ShitBlockConfig', function(result){
 		if (!isEmpty(result))
@@ -9,24 +8,22 @@ window.onload = function () {
 		else
 			config = { blocked : {}, enabled : true };
 
-		if (config.enabled == false)
-			checkbox.checked = false;
-		else
-			checkbox.checked = true;
+		if (config.enabled == true)
+		{
+			$('#enableShitBlock').bootstrapSwitch('setAnimated', false);
+			$('#enableShitBlock').bootstrapSwitch('setState', true);
+			setTimeout("$('#enableShitBlock').bootstrapSwitch('setAnimated', true)", 500);
+		}
+		$('#enableShitBlock').on('switch-change', function (e, data) {
+			config.enabled = data.value;
+			chrome.storage.sync.set({"ShitBlockConfig" : config});
+		});
 	});
 
-	checkbox.onclick = function() {
-		if (config.enabled == false)
-		{
-			config.enabled = true;
-			chrome.storage.sync.set({"ShitBlockConfig" : config});
-		}
-		else
-		{
-			config.enabled = false;
-			chrome.storage.sync.set({"ShitBlockConfig" : config});
-		}
-	}
+	chrome.storage.onChanged.addListener(function(changes, namespace) {
+		if (changes["ShitBlockConfig"].newValue.enabled != config.enabled)
+			$('#enableShitBlock').bootstrapSwitch('toggleState');
+	});
 
 	function isEmpty(obj) {
 		for(var prop in obj) {

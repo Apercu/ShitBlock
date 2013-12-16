@@ -18,7 +18,7 @@ angular.module("ShitBlock").controller("OptionsCtrl", function ($scope) {
 		{
 			$('#enableShitBlock').bootstrapSwitch('setAnimated', false);
 			$('#enableShitBlock').bootstrapSwitch('setState', true);
-			$('#enableShitBlock').bootstrapSwitch('setAnimated', true);
+			setTimeout("$('#enableShitBlock').bootstrapSwitch('setAnimated', true)", 500);
 		}
 		$('#enableShitBlock').on('switch-change', function (e, data) {
 			config.enabled = data.value;
