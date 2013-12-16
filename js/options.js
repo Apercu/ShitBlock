@@ -24,7 +24,6 @@ angular.module("ShitBlock").controller("OptionsCtrl", function ($scope, $http) {
 	chrome.storage.sync.get('ShitBlockConfig', function(result){
 		config = (!isEmpty(result)) ? result.ShitBlockConfig : { blocked : {}, enabled : true };
 		$scope.shitUsers = config.blocked;
-		console.log("coucou");
 		console.log($scope.shitUsers);
 		$scope.$digest();
 		if (config.enabled == true)
@@ -48,8 +47,11 @@ angular.module("ShitBlock").controller("OptionsCtrl", function ($scope, $http) {
 	});
 
 	chrome.storage.onChanged.addListener(function(changes, namespace) {
-		if (changes["ShitBlockConfig"].newValue.enabled != config.enabled)
-			$('#enableShitBlock').bootstrapSwitch('toggleState');
+		if (changes["ShitBlockConfig"])
+		{
+			if (changes["ShitBlockConfig"].newValue.enabled != config.enabled)
+				$('#enableShitBlock').bootstrapSwitch('toggleState');
+		}
 	});
 
 	function save() {
