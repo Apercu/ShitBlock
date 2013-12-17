@@ -8,6 +8,7 @@ chrome.storage.sync.get('ShitBlockConfig', function(result){
 	config = (!isEmpty(result)) ? result.ShitBlockConfig : { blocked : {}, enabled : true };
 	chrome.browserAction.setBadgeText({text: "" });
 	chrome.browserAction.setBadgeBackgroundColor({color: "#009900"});
+	chrome.browserAction.disable();
 });
 chrome.storage.sync.get('ShitBlockCount', function(result){
 	count = (!isEmpty(result)) ? result.ShitBlockCount : { total : 0 };
@@ -29,14 +30,10 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
 ** Listener for update count and delete count when not on post
 */
 chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
-	chrome.browserAction.setBadgeText({text: "0" });
 	if (request.type == "incrementCount" && config.enabled == true)
 	{
 		count.total += request.data;
 		chrome.storage.sync.set({'ShitBlockCount': count });
-		chrome.tabs.query({active: true, currentWindow: true}, function(tab) {
-			chrome.browserAction.setBadgeText({text: request.data.toString(), tabId:tab[0].id });
-		});
 	}
 	return true;
 });
@@ -49,10 +46,6 @@ chrome.tabs.onActiveChanged.addListener(function (tab_id) {
 });
 
 chrome.tabs.onUpdated.addListener(function (tab_id) {
-	activateBadgeAndCount(tab_id);
-});
-
-chrome.tabs.onCreated.addListener(function (tab_id, changeInfo, tab) {         
 	activateBadgeAndCount(tab_id);
 });
 
