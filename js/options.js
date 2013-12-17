@@ -18,14 +18,13 @@ angular.module("ShitBlock").controller("OptionsCtrl", function ($scope, $http) {
 	$scope.editing = {};
 	$scope.shitters = {};
 	$scope.searchText = "";
-	$scope.currentlyBlocked = 0;
+	$scope.total = 0;
 
 	var config;
 
 	chrome.storage.sync.get('ShitBlockConfig', function(result){
 		config = (!isEmpty(result)) ? result.ShitBlockConfig : { blocked : {}, enabled : true };
 		$scope.shitUsers = config.blocked;
-		console.log($scope.shitUsers);
 		$scope.$digest();
 		if (config.enabled == true)
 		{
@@ -56,6 +55,11 @@ angular.module("ShitBlock").controller("OptionsCtrl", function ($scope, $http) {
 		{
 			if (changes["ShitBlockConfig"].newValue.enabled != config.enabled)
 				$('#enableShitBlock').bootstrapSwitch('toggleState');
+		}
+		if (changes["ShitBlockCount"])
+		{
+			console.log(changes["ShitBlockCount"].newValue.total);
+			$scope.total = changes["ShitBlockCount"].newValue.total;
 		}
 	});
 

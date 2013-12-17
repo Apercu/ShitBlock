@@ -92,14 +92,3 @@ function isEmpty(obj) {
 	}
 	return true;
 }
-
-
-/*
-
-if (text === '') {
-	setIcon(false, tab_id);
-} else {
-	setIcon(!conf.paused_blocking && !whitelisted(tab.url), tab_id);
-}
-
-*/
