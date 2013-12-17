@@ -68,8 +68,10 @@ function activateBadgeAndCount (tab_id){
 		}
 		else
 		{
-			chrome.browserAction.disable(tab_id);
-			chrome.browserAction.setBadgeText({text: "", tabId:tab_id });
+			chrome.tabs.query({active: true, currentWindow: true}, function(tab) {
+				if (tab[0].url.indexOf("intra.42.fr") != -1)
+					chrome.browserAction.enable(tab_id);
+			});
 		}
 	});
 }
