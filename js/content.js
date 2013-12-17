@@ -22,6 +22,13 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
 	if (changes["ShitBlockConfig"])
 	{
 		config = changes["ShitBlockConfig"].newValue;
+		blocked = (function (tab) {
+			var out = [];
+			for (var i = 0; i < tab.length; i++) {
+				out.push(tab[i].login);
+			}
+			return (out);
+		})(config.blocked);
 		updateBlock();
 	}
 });
