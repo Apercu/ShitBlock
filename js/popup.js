@@ -21,7 +21,7 @@ window.onload = function () {
 	});
 
 	chrome.storage.onChanged.addListener(function(changes, namespace) {
-		if (changes["ShitBlockConfig"].newValue.enabled != config.enabled)
+		if (changes["ShitBlockConfig"] && changes["ShitBlockConfig"].newValue.enabled != config.enabled)
 			$('#enableShitBlock').bootstrapSwitch('toggleState');
 	});
 
