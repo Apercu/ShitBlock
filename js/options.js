@@ -50,16 +50,19 @@ angular.module("ShitBlock").controller("OptionsCtrl", function ($scope, $http) {
 		$scope.total = (!isEmpty(result)) ? result.ShitBlockCount.total : 0;
 	});
 
+	/*
+	** Listeners on change config and total count
+	*/
 	chrome.storage.onChanged.addListener(function(changes, namespace) {
 		if (changes["ShitBlockConfig"])
 		{
 			if (changes["ShitBlockConfig"].newValue.enabled != config.enabled)
 				$('#enableShitBlock').bootstrapSwitch('toggleState');
 		}
-		if (changes["ShitBlockCount"])
+		else if (changes["ShitBlockCount"])
 		{
-			console.log(changes["ShitBlockCount"].newValue.total);
 			$scope.total = changes["ShitBlockCount"].newValue.total;
+			$scope.$digest();
 		}
 	});
 
