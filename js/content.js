@@ -88,7 +88,9 @@ function isEmpty(obj) {
 	return true;
 }
 
-
+/*
+** Listener request from background to get count on this page
+*/
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
 	var	count;

@@ -34,21 +34,53 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 	{
 		count.total += request.data;
 		chrome.storage.sync.set({'ShitBlockCount': count });
-		chrome.tabs.getSelected(null, function(tab){
-			chrome.browserAction.setBadgeText({text: request.data.toString(), tabId:tab.id });
+		chrome.tabs.query({active: true, currentWindow: true}, function(tab) {
+			chrome.browserAction.setBadgeText({text: request.data.toString(), tabId:tab[0].id });
 		});
 	}
 	return true;
 });
 
 /*
-** Listener for tab change
+** Listeners for tab change, new and update
 */
 chrome.tabs.onActiveChanged.addListener(function (tab_id) {
-	chrome.tabs.sendMessage(tab_id, {callCountCurrent: "yes"}, function(response) {
-		chrome.browserAction.setBadgeText({text: response.countOnTab.toString(), tabId:tab_id });
-	});
+	activateBadgeAndCount(tab_id);
 });
+
+chrome.tabs.onUpdated.addListener(function (tab_id) {
+	activateBadgeAndCount(tab_id);
+});
+
+chrome.tabs.onCreated.addListener(function (tab_id, changeInfo, tab) {         
+	activateBadgeAndCount(tab_id);
+});
+
+function activateBadgeAndCount (tab_id){
+	chrome.tabs.sendMessage(tab_id, {callCountCurrent: "yes"}, function(response) {
+		if (response)
+		{
+			chrome.tabs.query({active: true, currentWindow: true}, function(tab) {
+				if (tab[0].url.indexOf("intra.42.fr") != -1)
+				{
+					chrome.browserAction.setBadgeText({text: response.countOnTab.toString(), tabId:tab[0].id });
+					chrome.browserAction.enable(tab_id);
+				}
+				else
+				{
+					chrome.browserAction.disable(tab_id);
+					chrome.browserAction.setBadgeText({text: "", tabId:tab_id });
+				}
+			});
+		}
+		else
+		{
+			chrome.browserAction.disable(tab_id);
+			chrome.browserAction.setBadgeText({text: "", tabId:tab_id });
+		}
+	});
+}
+
 
 /*
 ** Test object empty
@@ -63,17 +95,11 @@ function isEmpty(obj) {
 
 
 /*
-Using different tabs,
-But not working : phoque
-
-chrome.tabs.getSelected(null, function(tab){
-	chrome.browserAction.setBadgeText({text: "", tabId:tab.id });
-});
 
 if (text === '') {
-				setIcon(false, tab_id);
-			} else {
-				setIcon(!conf.paused_blocking && !whitelisted(tab.url), tab_id);
-			}
+	setIcon(false, tab_id);
+} else {
+	setIcon(!conf.paused_blocking && !whitelisted(tab.url), tab_id);
+}
 
 */
