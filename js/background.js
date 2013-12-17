@@ -22,7 +22,19 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
 	{
 		config = changes["ShitBlockConfig"].newValue;
 		if (config.enabled == false)
-			chrome.browserAction.setBadgeText({text: "" });
+		{
+			chrome.tabs.query({active: true, currentWindow: true}, function(tab) {
+				if (tab[0].url.indexOf("intra.42.fr") != -1)
+					chrome.browserAction.setBadgeText({text: "", tabId:tab[0].id });
+			});
+		}
+		else
+		{
+			chrome.tabs.query({active: true, currentWindow: true}, function(tab) {
+				if (tab[0].url.indexOf("intra.42.fr") != -1)
+					activateBadgeAndCount(tab[0].id);
+			});
+		}
 	}
 });
 
@@ -34,6 +46,10 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 	{
 		count.total += request.data;
 		chrome.storage.sync.set({'ShitBlockCount': count });
+		chrome.tabs.query({active: true, currentWindow: true}, function(tab) {
+			if (tab[0].url.indexOf("intra.42.fr") != -1)
+				chrome.browserAction.setBadgeText({text: request.data.toString(), tabId:tab[0].id });
+		});
 	}
 	return true;
 });
@@ -56,7 +72,10 @@ function activateBadgeAndCount (tab_id){
 			chrome.tabs.query({active: true, currentWindow: true}, function(tab) {
 				if (tab[0].url.indexOf("intra.42.fr") != -1)
 				{
-					chrome.browserAction.setBadgeText({text: response.countOnTab.toString(), tabId:tab[0].id });
+					if (config.enabled == true)
+						chrome.browserAction.setBadgeText({text: response.countOnTab.toString(), tabId:tab[0].id });
+					else
+						chrome.browserAction.setBadgeText({text: "", tabId:tab[0].id });
 					chrome.browserAction.enable(tab_id);
 				}
 				else
