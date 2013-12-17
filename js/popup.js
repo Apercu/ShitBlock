@@ -6,7 +6,7 @@ window.onload = function () {
 		if (!isEmpty(result))
 			config = result.ShitBlockConfig;
 		else
-			config = { blocked : {}, enabled : true };
+			config = { blocked : [], enabled : true };
 
 		if (config.enabled == true)
 		{
