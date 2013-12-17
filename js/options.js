@@ -1,30 +1,19 @@
 angular.module("ShitBlock", ['ui.bootstrap']);
 
-angular.module("ShitBlock").filter('array', function() {
-	return function(items) {
-	console.log(items);
-		var filtered = [];
-		angular.forEach(items, function(item) {
-			filtered.push(item);
-		});
-		return filtered;
-	};
-});
-
 angular.module("ShitBlock").controller("OptionsCtrl", function ($scope, $http) {
 
-	$scope.shitUsers = {};
+	$scope.shitUsers = [];
 	$scope.newUser = {};
 	$scope.editing = {};
 	$scope.shitters = {};
 	$scope.searchText = "";
+	$scope.total = 0;
 
 	var config;
 
 	chrome.storage.sync.get('ShitBlockConfig', function(result){
-		config = (!isEmpty(result)) ? result.ShitBlockConfig : { blocked : {}, enabled : true };
+		config = (!isEmpty(result)) ? result.ShitBlockConfig : { blocked : [], enabled : true };
 		$scope.shitUsers = config.blocked;
-		console.log($scope.shitUsers);
 		$scope.$digest();
 		if (config.enabled == true)
 		{
@@ -46,22 +35,40 @@ angular.module("ShitBlock").controller("OptionsCtrl", function ($scope, $http) {
 		});
 	});
 
+	chrome.storage.sync.get('ShitBlockCount', function(result){
+		$scope.total = (!isEmpty(result)) ? result.ShitBlockCount.total : 0;
+	});
+
+	// Listeners on change config and total count
 	chrome.storage.onChanged.addListener(function(changes, namespace) {
 		if (changes["ShitBlockConfig"])
 		{
 			if (changes["ShitBlockConfig"].newValue.enabled != config.enabled)
 				$('#enableShitBlock').bootstrapSwitch('toggleState');
 		}
+		else if (changes["ShitBlockCount"])
+		{
+			$scope.total = changes["ShitBlockCount"].newValue.total;
+			$scope.$digest();
+		}
 	});
 
-	function save() {
+	function save () {
 		config.blocked = $scope.shitUsers;
 		chrome.storage.sync.set({'ShitBlockConfig': config });
 	}
 
+	function alreadyAdded (newUser) {
+		for (var i = 0; i < $scope.shitUsers.length; i++) {
+			if ($scope.shitUsers[i].login == newUser.login)
+				return (true);
+		}
+		return (false);
+	}
+
 	$scope.add = function (newUser) {
-		if (newUser && newUser.login && !$scope.shitUsers[newUser.login] && $scope.shitters.indexOf(newUser.login) != -1) {
-			$scope.shitUsers[newUser.login] = newUser;
+		if (newUser && newUser.login && !alreadyAdded(newUser) && $scope.shitters.indexOf(newUser.login) != -1) {
+			$scope.shitUsers.push(angular.copy(newUser));
 			$scope.shitters.splice($scope.shitters.indexOf(newUser.login), 1);
 			$scope.newUser = {};
 			save();
@@ -70,7 +77,7 @@ angular.module("ShitBlock").controller("OptionsCtrl", function ($scope, $http) {
 
 	$scope.delete = function (index) {
 		$scope.shitters.push($scope.shitUsers[index].login);
-		delete $scope.shitUsers[index];
+		$scope.shitUsers.splice(index, 1);
 		save();
 	};
 
@@ -94,4 +101,5 @@ angular.module("ShitBlock").controller("OptionsCtrl", function ($scope, $http) {
 		}
 		return true;
 	}
+
 });

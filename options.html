@@ -26,7 +26,7 @@
 	<div class="container" ng-controller="OptionsCtrl">
 		<div class="row">
 			<div class="span12">
-				<h3>General</h3>
+				<h3>General<span class="pull-right"><span class="mini">Shit blocked so far :</span> <span ng-bind="total"></span></span></h3>
 				<div id="enableShitBlock" class="make-switch" data-on="success" data-off="danger">
 					<input type="checkbox">
 				</div>
@@ -43,7 +43,7 @@
 						<span class="add-on">
 							<i class="icon icon-plus"></i>
 						</span>
-						<input class="span5" id="appendedInputButton" type="text" ng-model="newUser.login" placeholder="Add shitter login" typeahead="shitter for shitter in shitters | filter:$viewValue | limitTo:10"" autocomplete="off" typeahead-on-select="add(newUser)">
+						<input class="span5" id="appendedInputButton" type="text" ng-model="newUser.login" placeholder="Add shitter login" typeahead="shitter for shitter in shitters | filter:$viewValue | limitTo:10" autocomplete="off" typeahead-on-select="add(newUser)">
 					</div>
 				</form>
 			</div>
@@ -74,7 +74,7 @@
 							</td>
 							<td class="span1">
 								<div class="pull-right">
-									<button type="button" class="btn btn-danger" ng-click="delete(shit.login)">
+									<button type="button" class="btn btn-danger" ng-click="delete($index)">
 										<i class="icon icon-remove"></i>
 									</button>
 								</div>
