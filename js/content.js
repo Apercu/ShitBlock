@@ -4,14 +4,14 @@ var config;
 ** Get config
 */
 chrome.storage.sync.get('ShitBlockConfig', function(result){
-	config = (!isEmpty(result)) ? result.ShitBlockConfig : { blocked : {}, enabled : true };
+	config = (!isEmpty(result)) ? result.ShitBlockConfig : { blocked : [], enabled : true };
 });
 
 /*
 ** Update config if change
 */
 chrome.storage.onChanged.addListener(function(changes, namespace) {
-	if (changes["ShitBlockConfig"]) 
+	if (changes["ShitBlockConfig"])
 	{
 		config = changes["ShitBlockConfig"].newValue;
 		updateBlock();

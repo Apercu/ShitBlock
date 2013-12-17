@@ -5,7 +5,7 @@ var count;
 ** Load of the config, init badge
 */
 chrome.storage.sync.get('ShitBlockConfig', function(result){
-	config = (!isEmpty(result)) ? result.ShitBlockConfig : { blocked : {}, enabled : true };
+	config = (!isEmpty(result)) ? result.ShitBlockConfig : { blocked : [], enabled : true };
 	chrome.browserAction.setBadgeText({text: "" });
 	chrome.browserAction.setBadgeBackgroundColor({color: "#009900"});
 	chrome.browserAction.disable();
