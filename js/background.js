@@ -5,12 +5,13 @@ var count;
 ** Load of the config, init badge
 */
 chrome.storage.sync.get('ShitBlockConfig', function(result){
-	config = (!isEmpty(result)) ? result.ShitBlockConfig : { blocked : {}, enabled : true };
+	config = (!isEmpty(result)) ? result.ShitBlockConfig : { blocked : [], enabled : true };
 	chrome.browserAction.setBadgeText({text: "" });
 	chrome.browserAction.setBadgeBackgroundColor({color: "#009900"});
+	chrome.browserAction.disable();
 });
 chrome.storage.sync.get('ShitBlockCount', function(result){
-	count = (!isEmpty(result)) ? result.ShitBlockCount : { current : 0, total : 0 };
+	count = (!isEmpty(result)) ? result.ShitBlockCount : { total : 0 };
 });
 
 /*
@@ -21,7 +22,19 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
 	{
 		config = changes["ShitBlockConfig"].newValue;
 		if (config.enabled == false)
-			chrome.browserAction.setBadgeText({text: "" });
+		{
+			chrome.tabs.query({active: true, currentWindow: true}, function(tab) {
+				if (tab[0].url.indexOf("intra.42.fr") != -1)
+					chrome.browserAction.setBadgeText({text: "", tabId:tab[0].id });
+			});
+		}
+		else
+		{
+			chrome.tabs.query({active: true, currentWindow: true}, function(tab) {
+				if (tab[0].url.indexOf("intra.42.fr") != -1)
+					activateBadgeAndCount(tab[0].id);
+			});
+		}
 	}
 });
 
@@ -29,18 +42,59 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
 ** Listener for update count and delete count when not on post
 */
 chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
-	chrome.browserAction.setBadgeText({text: "0" });
 	if (request.type == "incrementCount" && config.enabled == true)
 	{
-		chrome.browserAction.setBadgeText({text: request.data.toString() });
 		count.total += request.data;
 		chrome.storage.sync.set({'ShitBlockCount': count });
-		console.log(count.total);
+		chrome.tabs.query({active: true, currentWindow: true}, function(tab) {
+			if (tab[0].url.indexOf("intra.42.fr") != -1)
+				chrome.browserAction.setBadgeText({text: request.data.toString(), tabId:tab[0].id });
+		});
 	}
-	/*else if (request.type == "deleteBadge")
-		chrome.browserAction.setBadgeText({text: request.data.toString() });*/
 	return true;
 });
+
+/*
+** Listeners for tab change, new and update
+*/
+chrome.tabs.onActiveChanged.addListener(function (tab_id) {
+	activateBadgeAndCount(tab_id);
+});
+
+chrome.tabs.onUpdated.addListener(function (tab_id) {
+	activateBadgeAndCount(tab_id);
+});
+
+function activateBadgeAndCount (tab_id){
+	chrome.tabs.sendMessage(tab_id, {callCountCurrent: "yes"}, function(response) {
+		if (response)
+		{
+			chrome.tabs.query({active: true, currentWindow: true}, function(tab) {
+				if (tab[0].url.indexOf("intra.42.fr") != -1)
+				{
+					if (config.enabled == true)
+						chrome.browserAction.setBadgeText({text: response.countOnTab.toString(), tabId:tab[0].id });
+					else
+						chrome.browserAction.setBadgeText({text: "", tabId:tab[0].id });
+					chrome.browserAction.enable(tab_id);
+				}
+				else
+				{
+					chrome.browserAction.disable(tab_id);
+					chrome.browserAction.setBadgeText({text: "", tabId:tab_id });
+				}
+			});
+		}
+		else
+		{
+			chrome.tabs.query({active: true, currentWindow: true}, function(tab) {
+				if (tab[0].url.indexOf("intra.42.fr") != -1)
+					chrome.browserAction.enable(tab_id);
+			});
+		}
+	});
+}
+
 
 /*
 ** Test object empty
@@ -52,14 +106,3 @@ function isEmpty(obj) {
 	}
 	return true;
 }
-
-
-/*
-Using different tabs,
-But not working : phoque
-
-chrome.tabs.getSelected(null, function(tab){
-	chrome.browserAction.setBadgeText({text: "", tabId:tab.id });
-});
-
-*/
