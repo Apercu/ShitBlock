@@ -87,3 +87,31 @@ function isEmpty(obj) {
 	}
 	return true;
 }
+
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+
+	var	count;
+
+	count = 0;
+	$('li.item').each(function () {
+		var href = $(this).find('a').attr('href');
+		if (href) {
+			var reg = href.match(/user\/([a-z]+-*[a-z]*)\//);
+			if (reg && reg[1] && config.blocked.hasOwnProperty(reg[1]) == true) {
+				if (config.enabled == true)
+					count++;
+			}
+		}
+	});
+
+	$('span.info').each(function () {
+		var reg = $(this).html().match(/— ([a-z]+-*[a-z]*)/);
+		if (reg && reg[1] && config.blocked.hasOwnProperty(reg[1]) == true)
+		{
+			if (config.enabled == true)
+				count++;
+		}
+	});
+	sendResponse({countOnTab: count});
+});
